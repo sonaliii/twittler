@@ -3,25 +3,64 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+      <style type="text/css">
+          h1 {color: #00CCFF; text-align: center;}
+          body {background-color: #000000; font-family: "Trebuchet MS"; color: #66FFFF;}
+      </style>
+
+
   </head>
   <body>
+
     <script>
 
+
       $(document).ready(function(){
+          setInterval(function() {
+        var $h1 = $('h1');
+              $h1.html('');
         var $body = $('body');
-        $body.html('');
+        $body.html('<h1>Twittler</h1> <hr border-color = #00CCFF; size = 4>');
 
         var index = streams.home.length - 1;
         while(index >= 0){
+
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          var hours = tweet.created_at.getHours();
+          var minutes = tweet.created_at.getMinutes();
+          var seconds = tweet.created_at.getSeconds();
+          var tweet_time = String(hours + ':' + minutes + ':' + seconds);
+
+          $(tweet.user).on('click', function() {
+                var username = streams.user[tweet.user];
+                console.log(username);
+                $('body').empty();
+                var history = $('<div></div>');
+                for (var i = 0; i < username.length; i++) {
+                    var tweet_hours = username.created_at.getHours();
+                    var tweet_mins = username.created_at.getMinutes();
+                    var tweet_created = String(tweet_hours + ':' + tweet_mins);
+                    history.text(username.message + ' (' + tweet_created + ')');
+                    history.appendTo($body);
+                }
+
+            })
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' (' + tweet_time + ')');
+
           $tweet.appendTo($body);
           index -= 1;
+
+
+
         }
+          }, 1000);
+
+
 
       });
 
     </script>
+
   </body>
 </html>
