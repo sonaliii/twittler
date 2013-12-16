@@ -31,24 +31,31 @@
           var minutes = tweet.created_at.getMinutes();
           var seconds = tweet.created_at.getSeconds();
           var tweet_time = String(hours + ':' + minutes + ':' + seconds);
-          var $username = $('<div class = "username">streams.user[tweet.user]</div>');
+          var $username = $('<div class = "username"></div>');
+          $username.text(tweet.user);
+
+
+          $tweet.text(': ' + tweet.message + ' (' + tweet_time + ')');
+          $username.prependTo($tweet);
+          $tweet.appendTo($body);
 
             $('.username').on('click', function() {
                 $body.empty();
                 var $history = $('<div></div>');
-                for (var i = 0; i < $username.length; i++) {
-                    var tweet_hours = $username.created_at.getHours();
-                    var tweet_mins = $username.created_at.getMinutes();
+                var username = tweet.user;
+                for (var i = 0; i < username.length; i++) {
+
+                    var tweet_hours = username[i].created_at.getHours();
+                    var tweet_mins = username[i].created_at.getMinutes();
                     var tweet_created = String(tweet_hours + ':' + tweet_mins);
-                    $history.text($username.message + ' (' + tweet_created + ')');
+                    $history.text(tweet.message + ' (' + tweet_created + ')');
                     $history.appendTo($body);
                 }
 
             })
 
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' (' + tweet_time + ')');
-          $tweet.appendTo($body);
-          index -= 1;
+
+            index -= 1;
         }
           }, 1000);
       });
