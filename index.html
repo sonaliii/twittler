@@ -32,7 +32,7 @@
           var seconds = tweet.created_at.getSeconds();
           var tweet_time = String(hours + ':' + minutes + ':' + seconds);
           var $username = $('<div class = "username"></div>');
-          $username.text(tweet.user);
+          $username.text('@' + tweet.user);
 
 
           $tweet.text(': ' + tweet.message + ' (' + tweet_time + ')');
@@ -42,13 +42,13 @@
             $('.username').on('click', function() {
                 $body.empty();
                 var $history = $('<div></div>');
-                var username = tweet.user;
+                var username = streams.users[tweet.user];
                 for (var i = 0; i < username.length; i++) {
 
                     var tweet_hours = username[i].created_at.getHours();
                     var tweet_mins = username[i].created_at.getMinutes();
                     var tweet_created = String(tweet_hours + ':' + tweet_mins);
-                    $history.text(tweet.message + ' (' + tweet_created + ')');
+                    $history.text(tweet.user + ': ' + tweet.message + ' (' + tweet_created + ')');
                     $history.appendTo($body);
                 }
 
