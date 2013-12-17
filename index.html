@@ -16,7 +16,7 @@
 
 
       $(document).ready(function(){
-          setInterval(function() {
+        var id =  setInterval(function() {
         var $h1 = $('h1');
               $h1.html('');
         var $body = $('body');
@@ -40,15 +40,23 @@
           $tweet.appendTo($body);
 
             $('.username').on('click', function() {
+                clearInterval(id);
                 $body.empty();
                 var $history = $('<div></div>');
-                var username = streams.users[tweet.user];
-                for (var i = 0; i < username.length; i++) {
 
-                    var tweet_hours = username[i].created_at.getHours();
-                    var tweet_mins = username[i].created_at.getMinutes();
-                    var tweet_created = String(tweet_hours + ':' + tweet_mins);
-                    $history.text(tweet.user + ': ' + tweet.message + ' (' + tweet_created + ')');
+                var username = $(event.target).text().substr(1);
+
+                var users_tweets = streams.users[username];
+                console.log(users_tweets);
+                for (var i = 0; i < users_tweets.length; i++) {
+                    var tweet_hours = users_tweets[i].created_at.getHours();
+                    var tweet_mins = users_tweets[i].created_at.getMinutes();
+                    var tweet_sec = users_tweets[i].created_at.getSeconds();
+                    var tweet_created = String(tweet_hours + ':' + tweet_mins + ':' + tweet_sec);
+                    var tweet_message = users_tweets[i].message;
+                    var $one_tweet = $('<div></div>');
+                    $one_tweet.text(username + ': ' + tweet_message + ' (' + tweet_created + ')');
+                    $one_tweet.appendTo($history);
                     $history.appendTo($body);
                 }
 
